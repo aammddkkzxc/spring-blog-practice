@@ -3,6 +3,7 @@ package blog.springblogpractice.service;
 import blog.springblogpractice.domain.Article;
 import blog.springblogpractice.dto.AddArticleRequest;
 import blog.springblogpractice.repository.BlogRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,5 +16,9 @@ public class BlogService {
 
     public Article save(AddArticleRequest addArticleRequest) {
         return blogRepository.save(addArticleRequest.toEntity());
+    }
+
+    public List<Article> findAll() {
+        return blogRepository.findAll();
     }
 }
