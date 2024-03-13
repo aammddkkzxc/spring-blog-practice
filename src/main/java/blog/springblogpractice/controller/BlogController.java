@@ -3,6 +3,7 @@ package blog.springblogpractice.controller;
 import blog.springblogpractice.domain.Article;
 import blog.springblogpractice.dto.AddArticleRequest;
 import blog.springblogpractice.dto.ArticleResponse;
+import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.service.BlogService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -51,5 +53,12 @@ public class BlogController {
     public ResponseEntity<Void> deleteById(@PathVariable long id) {
         blogService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    @ResponseBody
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest updateArticleRequest) {
+        Article article = blogService.updateById(id, updateArticleRequest);
+        return ResponseEntity.ok().body(article);
     }
 }
