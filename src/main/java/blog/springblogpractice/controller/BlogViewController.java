@@ -19,6 +19,6 @@ public class BlogViewController {
                 .map(ArticleListViewResponse::new).toList();
         model.addAttribute("articles", articles);
 
-        return "articlesList";
+        return "articleList";
     }
 }
