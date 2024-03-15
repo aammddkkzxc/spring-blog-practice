@@ -3,12 +3,14 @@ package blog.springblogpractice.controller;
 import blog.springblogpractice.domain.Article;
 import blog.springblogpractice.dto.AddArticleRequest;
 import blog.springblogpractice.dto.ArticleResponse;
+import blog.springblogpractice.dto.ArticleViewResponse;
 import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.service.BlogService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,5 +62,13 @@ public class BlogController {
     public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest updateArticleRequest) {
         Article article = blogService.updateById(id, updateArticleRequest);
         return ResponseEntity.ok().body(article);
+    }
+
+    @GetMapping("/articles/{id}")
+    public String showArticle(@PathVariable Long id, Model model) {
+        Article article = blogService.findById(id);
+        model.addAttribute("article", new ArticleViewResponse(article));
+
+        return "article";
     }
 }
