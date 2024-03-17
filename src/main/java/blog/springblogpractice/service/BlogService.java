@@ -5,6 +5,7 @@ import blog.springblogpractice.dto.AddArticleRequest;
 import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.external.ExampleAPIClient;
 import blog.springblogpractice.repository.ArticleRepository;
+import blog.springblogpractice.repository.CommentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BlogService {
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final ExampleAPIClient apiClient;
 
-    public BlogService(ArticleRepository articleRepository, ExampleAPIClient apiClient) {
+    public BlogService(ArticleRepository articleRepository, CommentRepository commentRepository, ExampleAPIClient apiClient) {
         this.articleRepository = articleRepository;
+        this.commentRepository = commentRepository;
         this.apiClient = apiClient;
     }
 
