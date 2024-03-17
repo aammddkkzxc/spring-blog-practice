@@ -30,7 +30,7 @@ public class BlogViewController {
         if (id == null) {
             model.addAttribute("article", new ArticleViewResponse());
         } else {
-            Article article = blogService.findById(id);
+            Article article = blogService.findArticleById(id);
             model.addAttribute("article", new ArticleViewResponse(article));
         }
         return "newArticle";

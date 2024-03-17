@@ -36,7 +36,7 @@ public class BlogService {
         return articleRepository.findAll();
     }
 
-    public Article findById(Long id) {
+    public Article findArticleById(Long id) {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
     }
@@ -47,7 +47,7 @@ public class BlogService {
 
     @Transactional
     public Article updateById(Long id, UpdateArticleRequest updateArticleRequest) {
-        Article article = findById(id);
+        Article article = findArticleById(id);
 
         article.update(updateArticleRequest.getTitle(), updateArticleRequest.getContent());
 

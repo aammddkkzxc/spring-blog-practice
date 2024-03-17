@@ -45,7 +45,7 @@ public class BlogController {
     @GetMapping("/api/articles/{id}")
     @ResponseBody
     public ResponseEntity<Article> findById(@PathVariable long id) {
-        Article article = blogService.findById(id);
+        Article article = blogService.findArticleById(id);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(article);
     }
@@ -66,7 +66,7 @@ public class BlogController {
 
     @GetMapping("/articles/{id}")
     public String showArticle(@PathVariable Long id, Model model) {
-        Article article = blogService.findById(id);
+        Article article = blogService.findArticleById(id);
         model.addAttribute("article", new ArticleViewResponse(article));
 
         return "article";
