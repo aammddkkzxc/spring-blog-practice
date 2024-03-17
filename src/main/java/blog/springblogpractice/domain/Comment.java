@@ -1,8 +1,10 @@
 package blog.springblogpractice.domain;
 
+import blog.springblogpractice.dto.CommentResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,11 +37,20 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @Builder
-    public Comment(String body) {
+    public Comment(Article article,String body) {
+        this.article = article;
         this.body = body;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "article_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "article_id")
     private Article article;
+
+    public CommentResponse toResponse() {
+        return CommentResponse.builder()
+                .id(id)
+                .body(body)
+                .createdAt(createdAt)
+                .build();
+    }
 }

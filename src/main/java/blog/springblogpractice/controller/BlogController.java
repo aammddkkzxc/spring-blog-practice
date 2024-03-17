@@ -1,9 +1,12 @@
 package blog.springblogpractice.controller;
 
 import blog.springblogpractice.domain.Article;
+import blog.springblogpractice.domain.Comment;
 import blog.springblogpractice.dto.AddArticleRequest;
+import blog.springblogpractice.dto.AddCommentRequest;
 import blog.springblogpractice.dto.ArticleResponse;
 import blog.springblogpractice.dto.ArticleViewResponse;
+import blog.springblogpractice.dto.CommentResponse;
 import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.service.BlogService;
 import java.util.List;
@@ -30,7 +33,7 @@ public class BlogController {
     @PostMapping("/api/articles")
     @ResponseBody
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest addArticleRequest) {
-        Article savedArticle = blogService.save(addArticleRequest);
+        Article savedArticle = blogService.saveArticle(addArticleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
 
@@ -44,7 +47,7 @@ public class BlogController {
 
     @GetMapping("/api/articles/{id}")
     @ResponseBody
-    public ResponseEntity<Article> findById(@PathVariable long id) {
+    public ResponseEntity<Article> findArticleById(@PathVariable long id) {
         Article article = blogService.findArticleById(id);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(article);
@@ -70,5 +73,24 @@ public class BlogController {
         model.addAttribute("article", new ArticleViewResponse(article));
 
         return "article";
+    }
+    ///////////////// 위 Article 아래 Comment ///////////////////////
+    @PostMapping("/api/comments/{articleId}")
+    @ResponseBody
+    public ResponseEntity<CommentResponse> addComment(@RequestBody AddCommentRequest addCommentRequest, @PathVariable Long articleId) {
+        Article article = blogService.findArticleById(articleId);
+        Comment savedComment = blogService.saveComment(addCommentRequest, article);
+        article.addComment(savedComment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment.toResponse());
+    }
+
+    @GetMapping("/api/comments/{articleId}/{commentId}")
+    @ResponseBody
+    public ResponseEntity<Comment> findComment(@PathVariable Long articleId, @PathVariable Long commentId) {
+        Article article = blogService.findArticleById(articleId);
+        Comment comment = article.getComments().get(Math.toIntExact(commentId));
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(comment);
     }
 }

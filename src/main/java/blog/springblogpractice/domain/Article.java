@@ -52,11 +52,11 @@ public class Article {
         this.content = content;
     }
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private final List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "article")
+    private List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {
         comment.setArticle(this);
-        getComments().add(comment);
+        comments.add(comment);
     }
 }

@@ -1,7 +1,9 @@
 package blog.springblogpractice.service;
 
 import blog.springblogpractice.domain.Article;
+import blog.springblogpractice.domain.Comment;
 import blog.springblogpractice.dto.AddArticleRequest;
+import blog.springblogpractice.dto.AddCommentRequest;
 import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.external.ExampleAPIClient;
 import blog.springblogpractice.repository.ArticleRepository;
@@ -28,7 +30,7 @@ public class BlogService {
         this.apiClient = apiClient;
     }
 
-    public Article save(AddArticleRequest addArticleRequest) {
+    public Article saveArticle(AddArticleRequest addArticleRequest) {
         return articleRepository.save(addArticleRequest.toEntity());
     }
 
@@ -75,5 +77,14 @@ public class BlogService {
         return jsonMapList.stream()
                 .map(hashMap -> new Article(hashMap.get("title"), hashMap.get("body")))
                 .toList();
+    }
+
+    public Comment saveComment(AddCommentRequest addCommentRequest, Article article) {
+        return commentRepository.save(addCommentRequest.toEntity(article));
+    }
+
+    public Comment findCommentById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
     }
 }
