@@ -6,6 +6,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +22,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "comment_id", updatable = false)
     private Long id;
 
     @Column(name = "body", nullable = false)
@@ -34,4 +36,8 @@ public class Comment {
     public Comment(String body) {
         this.body = body;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;
 }
