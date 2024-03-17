@@ -1,22 +1,22 @@
 package blog.springblogpractice;
 
 import blog.springblogpractice.external.ExampleAPIClient;
-import blog.springblogpractice.repository.BlogRepository;
+import blog.springblogpractice.repository.ArticleRepository;
 import blog.springblogpractice.service.BlogService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Config {
-    private final BlogRepository blogRepository;
+    private final ArticleRepository articleRepository;
 
-    public Config(BlogRepository blogRepository) {
-        this.blogRepository = blogRepository;
+    public Config(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
     }
 
     @Bean
     public BlogService blogService() {
-        return new BlogService(blogRepository, exampleAPIClient());
+        return new BlogService(articleRepository, exampleAPIClient());
     }
 
     @Bean

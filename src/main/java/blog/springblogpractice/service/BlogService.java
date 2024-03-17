@@ -4,7 +4,7 @@ import blog.springblogpractice.domain.Article;
 import blog.springblogpractice.dto.AddArticleRequest;
 import blog.springblogpractice.dto.UpdateArticleRequest;
 import blog.springblogpractice.external.ExampleAPIClient;
-import blog.springblogpractice.repository.BlogRepository;
+import blog.springblogpractice.repository.ArticleRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -17,29 +17,29 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class BlogService {
-    private final BlogRepository blogRepository;
+    private final ArticleRepository articleRepository;
     private final ExampleAPIClient apiClient;
 
-    public BlogService(BlogRepository blogRepository, ExampleAPIClient apiClient) {
-        this.blogRepository = blogRepository;
+    public BlogService(ArticleRepository articleRepository, ExampleAPIClient apiClient) {
+        this.articleRepository = articleRepository;
         this.apiClient = apiClient;
     }
 
     public Article save(AddArticleRequest addArticleRequest) {
-        return blogRepository.save(addArticleRequest.toEntity());
+        return articleRepository.save(addArticleRequest.toEntity());
     }
 
     public List<Article> findAll() {
-        return blogRepository.findAll();
+        return articleRepository.findAll();
     }
 
     public Article findById(Long id) {
-        return blogRepository.findById(id)
+        return articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
     }
 
     public void delete(Long id) {
-        blogRepository.deleteById(id);
+        articleRepository.deleteById(id);
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class BlogService {
 
     public List<Article> saveBulkArticles() {
         List<Article> articles = parsedArticles();
-        return blogRepository.saveAll(articles);
+        return articleRepository.saveAll(articles);
     }
 
     private List<Article> parsedArticles() {
