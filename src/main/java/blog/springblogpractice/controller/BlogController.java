@@ -62,7 +62,8 @@ public class BlogController {
 
     @PutMapping("/api/articles/{id}")
     @ResponseBody
-    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest updateArticleRequest) {
+    public ResponseEntity<Article> updateArticle(@PathVariable long id,
+                                                 @RequestBody UpdateArticleRequest updateArticleRequest) {
         Article article = blogService.updateById(id, updateArticleRequest);
         return ResponseEntity.ok().body(article);
     }
@@ -74,10 +75,12 @@ public class BlogController {
 
         return "article";
     }
+
     ///////////////// 위 Article 아래 Comment ///////////////////////
     @PostMapping("/api/comments/{articleId}")
     @ResponseBody
-    public ResponseEntity<CommentResponse> addComment(@RequestBody AddCommentRequest addCommentRequest, @PathVariable Long articleId) {
+    public ResponseEntity<CommentResponse> addComment(@RequestBody AddCommentRequest addCommentRequest,
+                                                      @PathVariable Long articleId) {
         Article article = blogService.findArticleById(articleId);
         Comment savedComment = blogService.saveComment(addCommentRequest, article);
         article.addComment(savedComment);
