@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,6 +80,7 @@ public class BlogController {
     ///////////////// 위 Article 아래 Comment ///////////////////////
     @PostMapping("/api/comments/{articleId}")
     @ResponseBody
+    @Transactional
     public ResponseEntity<CommentResponse> addComment(@RequestBody AddCommentRequest addCommentRequest,
                                                       @PathVariable Long articleId) {
         Article article = blogService.findArticleById(articleId);

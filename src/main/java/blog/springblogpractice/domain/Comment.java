@@ -37,7 +37,7 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @Builder
-    public Comment(Article article,String body) {
+    public Comment(Article article, String body) {
         this.article = article;
         this.body = body;
     }

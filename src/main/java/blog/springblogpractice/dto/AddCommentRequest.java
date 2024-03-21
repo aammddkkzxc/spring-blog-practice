@@ -8,11 +8,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
+//@NoArgsConstructor
 @AllArgsConstructor
 public class AddCommentRequest {
     private String body;
 
     public Comment toEntity(Article article) {
         return Comment.builder().article(article).body(body).build();
+    }
+
+    public AddCommentRequest() {
+
     }
 }
